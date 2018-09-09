@@ -1,0 +1,26 @@
+Notas para empezar con git. 
+
+	Interactivo: http://try.github.com 
+	Español:     http://rogerdudler.github.io/git-guide/index.es.html
+		     http://git-scm.com/book/es
+Bajarse este repo: 
+					git clone https://github.com/camammoli/mis-scripts
+
+Comandos comunes:
+	Configuro la cuenta que uso:	git config --global user.email "pablodav@gmail.com"
+	Recordar contraseña:		git config credential.helper store
+	quitar recordar contraseña:	git config --unset credential.helper
+	Agrego archivos			git add *.txt
+	Hago commit			git commit -m "agrego ayuda git"
+	Push!				git push origin master
+	Sincronizar lo que está		git pull
+
+	usar clave ssh 			https://help.github.com/articles/generating-ssh-keys
+
+
+Branches (ramas)
+	Ver ramas creadas: 		git branch -a
+	Cambiar o crear rama:		git checkout ramaxxxx
+	push cuando cambié de rama ej: 	git push origin develop (para la rama develop) 
+
+Test
