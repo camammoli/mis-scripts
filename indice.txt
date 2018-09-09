@@ -1,0 +1,29 @@
+Indice
+
+https://blog.desdelinux.net/scripts-shell-utiles-en-cualquier-programa/
+
+  [solo-root.sh]
+  Evitar que usuarios sin privilegios ejecuten el script
+  Algunos scripts realizan tareas administrativas por lo cual podríamos querer que solo el usuario root ejecute el script.
+
+  [solo-usuario.sh]
+  Permitir la ejecución del script solo a un usuario específico
+
+  [verifica-proceso.sh]
+  Verificar que un servicio/proceso se está ejecutando
+  Si queremos saber si existen procesos de algún servicio o programa ejecutándose podríamos usar este script (en este caso verifica que el demonio de Apache esté corriendo)
+
+  [bloqueo.sh]
+  Crear un archivo de bloqueo
+  A veces debemos asegurarnos que el script no se ejecute dos o más veces simultáneas. Para ello podemos hacer uso de los archivos de bloqueo. Se verifica que el archivo loquesea.lock exista. En caso de que exista, el script NO ejecuta sus tareas. Si no existe, crea el archivo, ejecuta las tareas que deba ejecutar y lo elimina. Pero, esto no es del todo fiable. ¿Qué pasaría si mientras nuestro script se está ejecutando es cerrado abruptamente?
+  En ese caso el archivo de bloqueo no se borraría, y por lo tanto, no nos permitiría ejecutar el script de nuevo. Para cubrir esos casos, podríamos hacer uso del comando trap que nos permite ejecutar comandos en caso que nuestro script termine de manera inesperada. Esta es una versión más avanzada que además guarda dentro del archivo de bloqueo el PID del script que lo ejecuta
+
+  Entendamos un poco mejor el comando trap. La sintaxis del mismo es básicamente esta: trap comando signal [signal …]; donde signal es la señal de terminación que quieres atrapar. Si quieres ver una lista de los signals disponibles puedes ejecutar el comando kill -l. Para el caso anterior se usaron los signals INT (captura la terminación producida por un Ctrl+c), TERM (terminación producida por el comando kill) y EXIT (terminación normal de un script, bien sea porque ya no hay más líneas que ejecutar o porque se encuentra con el comando exit).
+
+  [menu.sh]
+  Menú de opciones
+  Para hacer un menú en donde permitimos al usuario seleccionar una serie de opciones podemos usar el siguiente esquema:
+
+  [confirma.sh]
+  Pedir confirmación antes de ejecutar un script
+  A veces es útil hacer que el usuario confirme la ejecución de un lote de sentencias, es decir, el típico mensaje que pide al usuario escribir yes o no. Esto lo podemos hacer así:
