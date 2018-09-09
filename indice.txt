@@ -27,3 +27,6 @@ https://blog.desdelinux.net/scripts-shell-utiles-en-cualquier-programa/
   [confirma.sh]
   Pedir confirmación antes de ejecutar un script
   A veces es útil hacer que el usuario confirme la ejecución de un lote de sentencias, es decir, el típico mensaje que pide al usuario escribir yes o no. Esto lo podemos hacer así:
+
+  [actualizar.sh]
+  Actualiza el sistema y limpia los archivos temporales.
