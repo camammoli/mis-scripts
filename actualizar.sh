@@ -60,10 +60,18 @@ apt-get autoremove $noconfirma 2>> err_$minombre.log $sinsalida
 if [[ $sinsalida = "" ]]; then echo; fi
 if [[ $errores > 0 ]]; then
   # Error ...
-  if [[ $sinsalida = "" ]]; then echo "Houston we have a problem..." && echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."; fi
+  if [[ $sinsalida = "" ]]; then
+    echo "Houston we have a problem..." && echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."
+  else
+    echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."|mutt -s "Houston we have a problem..." cmammoli@gmail.com
+  fi
   exit 1
 else
-  if [[ $sinsalida = "" ]]; then echo "Sistema actualizado!"; fi
+  if [[ $sinsalida = "" ]]; then
+    echo "Sistema actualizado!"
+  else
+    echo "Se ha actualizado el sistema."|mutt -s "Sistema actualizado!" cmammoli@gmail.com
+  fi
   rm -f err_$minombre.log
   exit 0
 fi
