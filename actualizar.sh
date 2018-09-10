@@ -33,10 +33,18 @@ fi
 if [[ -f err_$minombre.log ]]; then
   echo
   echo "Houston we have a problem..."
-  echo "Revise el archivo 'err_$minombre.log'; contiene informacion sobre errores"
+  echo "El archivo 'err_$minombre.log'; contiene informacion sobre errores"
   echo "de ejecuciones previas de $minombre."
-  echo "Ejecute 'rm err_$minombre.log'"
-  exit 1
+
+  while [[ $noconfirma = "" ]]; do
+    echo
+    read -p "¿Desea continuar igualmente? (Esto borrara el archivo): " yn
+    case $yn in
+      si ) break;;
+      no ) echo && echo "Puede ver el registro de errores de la ultima ejecucion con 'cat err_$minombre.log'" && exit 1;;
+      * ) echo && echo "Por favor responda 'si' o 'no'";;
+    esac
+  done
 fi
 
 if [[ $sinsalida = "" ]]; then echo && echo "Preparando actualizacion..."; fi
@@ -63,7 +71,8 @@ if [[ $errores > 0 ]]; then
   if [[ $sinsalida = "" ]]; then
     echo "Houston we have a problem..." && echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."
   else
-    echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."|mutt -s "Houston we have a problem..." cmammoli@gmail.com
+    echo "Revise el archivo err_$minombre.log para ver una lista de errores al actualizar."|mutt -s "Houston we have a problem..." -a err_$minombre.log -- cmammoli@gmail.com
+    rm -f err_$minombre.log
   fi
   exit 1
 else
