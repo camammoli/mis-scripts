@@ -55,6 +55,18 @@ Colección personal de herramientas de línea de comandos para el día a día: m
 | `gemini.sh` | Cliente de Google Gemini: modo pregunta, chat interactivo con historial, búsqueda web, pipe | No |
 | `groq.sh` | Cliente de Groq (Llama 3, Mixtral, Gemma2): chat interactivo, cambio de modelo en caliente, pipe | No |
 
+### Raspberry Pi 5
+
+Scripts específicos para Raspberry Pi 5 (hwmon, Docker, ventilador, Restic).
+
+| Script | Descripción | Root |
+|---|---|---|
+| `raspi/cooler_temp_volt.sh` | Monitor de temperatura, RPM del ventilador, voltaje y throttling. Log con rotación + alerta Telegram al superar umbral | No |
+| `raspi/ventilador.sh` | Control manual del ventilador: apagar, velocidades (25/50/75/100%), modo auto/manual. Detecta el path hwmon dinámicamente | Sí* |
+| `raspi/test_calentar_cpu.sh` | Estrés de CPU para verificar respuesta del ventilador. Acepta argumentos: `./test_calentar_cpu.sh [segundos] [procesos]` | No |
+| `raspi/restic_backup.sh` | Backup incremental con Restic a Google Drive (rclone). Sin contraseña hardcodeada, con notificación Telegram y rotación | Sí |
+| `raspi/ha_actualizar.sh` | Actualiza Home Assistant en Docker: backup previo con rotación, pull, recrear contenedor, verificación de arranque + notificación | Sí |
+
 ---
 
 ## Instalación
@@ -62,7 +74,7 @@ Colección personal de herramientas de línea de comandos para el día a día: m
 ```bash
 git clone https://github.com/camammoli/mis-scripts.git
 cd mis-scripts
-chmod +x *.sh
+chmod +x *.sh raspi/*.sh
 ```
 
 Para usar los scripts desde cualquier parte del sistema:
@@ -148,6 +160,26 @@ chmod 600 ~/.config/groq_api_key
 
 Editar las variables de configuración al inicio de cada script. Están claramente marcadas.
 
+### raspi/restic_backup.sh
+
+```bash
+# Crear archivo de contraseña (nunca hardcodear en el script)
+echo 'tu-contraseña-restic' > ~/.config/restic_password
+chmod 600 ~/.config/restic_password
+
+# Configurar rclone con remote "gdrive" antes de usar
+rclone config
+```
+
+### raspi/cooler_temp_volt.sh
+
+Ajustar `TEMP_ALERTA` (default: 75°C) y configurar `telegram-alert.sh` si se quieren notificaciones.
+Para monitoreo continuo, agregar al cron:
+
+```bash
+*/5 * * * * /home/pi/scripts/cooler_temp_volt.sh
+```
+
 ---
 
 ## Cron de ejemplo
@@ -176,7 +208,8 @@ crontab -e
 
 - **Testeados en:** Debian 12 (Bookworm) con kernel 6.1
 - **Deberían funcionar en:** Ubuntu 22.04+, Linux Mint 21+
-- **Dependencias opcionales:** `rsync` (backup-rsync), `curl` + `jq` (gemini, groq, telegram-alert)
+- **Scripts raspi/:** Raspberry Pi 5 con Raspberry Pi OS (Bookworm, 64-bit)
+- **Dependencias opcionales:** `rsync` (backup-rsync), `curl` + `jq` (gemini, groq, telegram-alert), `restic` + `rclone` (restic_backup), `docker` (ha_actualizar), `vcgencmd` (cooler_temp_volt — incluido en Raspberry Pi OS)
 - Scripts de IA: gratuitos con registro, no requieren tarjeta de crédito
 
 ---
