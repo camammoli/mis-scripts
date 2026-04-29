@@ -6,6 +6,16 @@ Colección personal de herramientas de línea de comandos para el día a día: m
 
 ---
 
+## Por qué comparto esto
+
+Cada script de esta colección nació de un problema real: un servidor que se llenó de disco a las 3 de la mañana, una Raspberry Pi que calentaba sin que nadie se diera cuenta, un backup que fallaba en silencio desde hacía semanas. Algunos los escribí en diez minutos, otros me llevaron horas de prueba y error, búsquedas, y varias versiones rotas antes de que funcionaran bien.
+
+No son perfectos ni pretenden serlo. Son herramientas que uso, que me ahorran tiempo, y que con el tiempo fui mejorando.
+
+Los comparto porque si a mí me costó encontrar una solución limpia a algo, probablemente a alguien más también. Y si este repositorio le ahorra aunque sea media hora a una persona que está peleando con el mismo problema, el tiempo que invertí en escribirlos y documentarlos ya valió la pena dos veces.
+
+---
+
 ## Scripts disponibles
 
 ### Sistema
