@@ -27,8 +27,8 @@ log "===== ACTUALIZACIÓN — ${FECHA} ====="
 log "${AMARILLO}[1/4] Actualizando lista de paquetes...${RESET}"
 apt update -qq 2>&1 | tee -a "$LOG"
 
-# Mostrar qué se va a actualizar
-UPGRADABLE=$(apt list --upgradable 2>/dev/null | grep -v "^Listing" | grep -c "upgradable" || true)
+# Mostrar qué se va a actualizar (método locale-independiente: cuenta líneas "Inst ...")
+UPGRADABLE=$(apt-get --just-print upgrade 2>/dev/null | grep -c "^Inst " || true)
 
 if [ "$UPGRADABLE" -eq 0 ]; then
     log "${VERDE}El sistema ya está actualizado. No hay nada que hacer.${RESET}"
@@ -37,7 +37,7 @@ fi
 
 echo ""
 log "${AMARILLO}Paquetes con actualización disponible (${UPGRADABLE}):${RESET}"
-apt list --upgradable 2>/dev/null | grep -v "^Listing" | tee -a "$LOG"
+apt list --upgradable 2>/dev/null | grep "/" | tee -a "$LOG"
 echo ""
 
 read -rp "¿Proceder con la actualización? [s/N]: " RESP
