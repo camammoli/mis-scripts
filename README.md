@@ -1,5 +1,7 @@
 # mis-scripts
 
+[![Archivado en Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/camammoli/mis-scripts/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/camammoli/mis-scripts)
+
 Scripts de administración y monitoreo para sistemas **Debian 12 / Ubuntu 22.04+**.
 
 Colección personal de herramientas de línea de comandos para el día a día: monitoreo, limpieza, backups, alertas y clientes de IA desde la terminal.
