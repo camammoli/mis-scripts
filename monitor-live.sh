@@ -23,10 +23,10 @@ barra() {
     local COLOR="$VERDE"
     [ "$PCT" -ge 70 ] && COLOR="$AMARILLO"
     [ "$PCT" -ge 90 ] && COLOR="$ROJO"
-    printf "${COLOR}["
+    printf '%b[' "$COLOR"
     printf '%0.s█' $(seq 1 $LLENO 2>/dev/null)
     printf '%0.s░' $(seq 1 $VACIO 2>/dev/null)
-    printf "]${RESET} %3d%%" "$PCT"
+    printf ']%b %3d%%' "$RESET" "$PCT"
 }
 
 mostrar() {
@@ -38,29 +38,29 @@ mostrar() {
     CPU_IDLE=$(top -bn1 | grep "Cpu(s)" | awk '{print $8}' | tr -d '%id,' 2>/dev/null || echo "0")
     CPU_PCT=$(awk "BEGIN{printf \"%d\", 100 - ${CPU_IDLE}}" 2>/dev/null || echo "0")
     LOAD=$(cut -d' ' -f1-3 /proc/loadavg)
-    echo -e "  ${AMARILLO}CPU  ${RESET} $(barra $CPU_PCT)  carga: ${LOAD}"
+    echo -e "  ${AMARILLO}CPU  ${RESET} $(barra "$CPU_PCT")  carga: ${LOAD}"
 
     # RAM
     RAM_INFO=$(free | awk 'NR==2{printf "%d %d %d", $2, $3, int($3*100/$2)}')
-    RAM_TOT=$(echo $RAM_INFO | awk '{printf "%.1f GB", $1/1024/1024}')
-    RAM_USD=$(echo $RAM_INFO | awk '{printf "%.1f GB", $2/1024/1024}')
-    RAM_PCT=$(echo $RAM_INFO | awk '{print $3}')
-    echo -e "  ${AMARILLO}RAM  ${RESET} $(barra $RAM_PCT)  ${RAM_USD} / ${RAM_TOT}"
+    RAM_TOT=$(echo "$RAM_INFO" | awk '{printf "%.1f GB", $1/1024/1024}')
+    RAM_USD=$(echo "$RAM_INFO" | awk '{printf "%.1f GB", $2/1024/1024}')
+    RAM_PCT=$(echo "$RAM_INFO" | awk '{print $3}')
+    echo -e "  ${AMARILLO}RAM  ${RESET} $(barra "$RAM_PCT")  ${RAM_USD} / ${RAM_TOT}"
 
     # SWAP
     SWAP_INFO=$(free | awk 'NR==3{if($2>0) printf "%d %d %d", $2, $3, int($3*100/$2); else print "0 0 0"}')
-    SWAP_TOT=$(echo $SWAP_INFO | awk '{printf "%.1f GB", $1/1024/1024}')
-    SWAP_USD=$(echo $SWAP_INFO | awk '{printf "%.1f GB", $2/1024/1024}')
-    SWAP_PCT=$(echo $SWAP_INFO | awk '{print $3}')
-    if [ "$(echo $SWAP_INFO | awk '{print $1}')" != "0" ]; then
-        echo -e "  ${AMARILLO}SWAP ${RESET} $(barra $SWAP_PCT)  ${SWAP_USD} / ${SWAP_TOT}"
+    SWAP_TOT=$(echo "$SWAP_INFO" | awk '{printf "%.1f GB", $1/1024/1024}')
+    SWAP_USD=$(echo "$SWAP_INFO" | awk '{printf "%.1f GB", $2/1024/1024}')
+    SWAP_PCT=$(echo "$SWAP_INFO" | awk '{print $3}')
+    if [ "$(echo "$SWAP_INFO" | awk '{print $1}')" != "0" ]; then
+        echo -e "  ${AMARILLO}SWAP ${RESET} $(barra "$SWAP_PCT")  ${SWAP_USD} / ${SWAP_TOT}"
     fi
 
     # Disco raíz
     DISCO_INFO=$(df / | awk 'NR==2{printf "%d %d", $5, $4/1024/1024}')
-    DISCO_PCT=$(echo $DISCO_INFO | awk '{print $1}' | tr -d '%')
-    DISCO_LIBRE=$(echo $DISCO_INFO | awk '{printf "%.1f GB libre", $2}')
-    echo -e "  ${AMARILLO}DISCO${RESET} $(barra $DISCO_PCT)  ${DISCO_LIBRE}"
+    DISCO_PCT=$(echo "$DISCO_INFO" | awk '{print $1}' | tr -d '%')
+    DISCO_LIBRE=$(echo "$DISCO_INFO" | awk '{printf "%.1f GB libre", $2}')
+    echo -e "  ${AMARILLO}DISCO${RESET} $(barra "$DISCO_PCT")  ${DISCO_LIBRE}"
 
     # Temperatura
     TEMP_FILE="/sys/class/thermal/thermal_zone0/temp"

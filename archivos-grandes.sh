@@ -25,8 +25,7 @@ echo -e "${CYAN}  ARCHIVOS GRANDES (> ${MIN_MB} MB) en ${DIR}${RESET}"
 echo -e "${CYAN}──────────────────────────────────────────${RESET}"
 echo ""
 
-RESULTADO=$(find "$DIR" -type f -size +${MIN_MB}M 2>/dev/null \
-    | xargs du -h 2>/dev/null \
+RESULTADO=$(find "$DIR" -type f -size +"${MIN_MB}"M -exec du -h {} + 2>/dev/null \
     | sort -rh \
     | head -30)
 

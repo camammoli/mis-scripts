@@ -98,13 +98,11 @@ for ORIGEN in "${ORIGENES[@]}"; do
     NOMBRE=$(basename "$ORIGEN")
     log "${AMARILLO}  → Copiando: ${ORIGEN}${RESET}"
 
-    rsync -av --delete \
+    if rsync -av --delete \
         "${EXCL_OPTS[@]}" \
         "$ORIGEN" \
         "${DESTINO}/" \
-        >> "$LOG" 2>&1
-
-    if [ $? -eq 0 ]; then
+        >> "$LOG" 2>&1; then
         log "${VERDE}    ✓ ${NOMBRE} completado.${RESET}"
     else
         log "${ROJO}    ✗ Error copiando ${NOMBRE}. Revisá el log: ${LOG}${RESET}"

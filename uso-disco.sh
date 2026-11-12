@@ -8,7 +8,6 @@
 
 CYAN='\033[0;36m'
 AMARILLO='\033[1;33m'
-VERDE='\033[0;32m'
 RESET='\033[0m'
 
 DIR="${1:-$HOME}"
